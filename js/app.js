@@ -32,10 +32,11 @@ Enemy.prototype.render = function() {
 var Player = function() {
   // Variables applied to each of our instances go here,
   // we've provided one for you to get started
-
+  this.x = 200;
+  this.y = 400;
   // The image/sprite for our enemies, this uses
   // a helper we've provided to easily load images
-  this.sprite = "images/enemy-bug.png";
+  this.sprite = "images/char-boy.png";
 };
 
 // Update the enemy's position, required method for game
@@ -44,7 +45,23 @@ Player.prototype.update = function(dt) {
   // You should multiply any movement by the dt parameter
   // which will ensure the game runs at the same speed for
   // all computers.
+
 };
+
+Player.prototype.handleInput = function(key) {
+    if (key === "up") {
+        player.y -= 50
+    }
+    if (key === "down") {
+        player.y += 50
+    }
+    if (key === "left") {
+        player.x -= 50
+    }
+    if (key === "right") {
+        player.x += 50
+    }
+}
 
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
@@ -66,7 +83,6 @@ function create_bug() {
   const lane = lane_pixels[Math.floor(Math.random() * lane_pixels.length)];
   // choosing random speed
   const speed = getRandomArbitrary(40,200);
-  console.log(speed)
 
   bug = new Enemy(lane,speed);
   allEnemies.push(bug);
@@ -89,6 +105,6 @@ document.addEventListener("keyup", function(e) {
     39: "right",
     40: "down"
   };
-
+  
   player.handleInput(allowedKeys[e.keyCode]);
 });
