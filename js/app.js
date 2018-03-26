@@ -29,6 +29,9 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+player_step = 100;
+player_step_y = 85;
+
 var Player = function() {
   // Variables applied to each of our instances go here,
   // we've provided one for you to get started
@@ -49,17 +52,19 @@ Player.prototype.update = function(dt) {
 };
 
 Player.prototype.handleInput = function(key) {
+    //TODO implement different x and y steps
+    
     if (key === "up") {
-        player.y -= 50
+        player.y -= player_step_y
     }
     if (key === "down") {
-        player.y += 50
+        player.y += player_step_y
     }
     if (key === "left") {
-        player.x -= 50
+        player.x -= player_step
     }
     if (key === "right") {
-        player.x += 50
+        player.x += player_step
     }
 }
 
