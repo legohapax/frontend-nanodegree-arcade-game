@@ -30,7 +30,7 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 player_step = 100;
-player_step_y = 85;
+player_step_y = 82;
 
 var Player = function() {
   // Variables applied to each of our instances go here,
@@ -52,26 +52,46 @@ Player.prototype.update = function(dt) {
 };
 
 Player.prototype.handleInput = function(key) {
-    //TODO implement different x and y steps
     
     if (key === "up") {
-        player.y -= player_step_y
+        if (player.y - player_step_y > -50) {
+          // checking if player is not out of canvas, if not player moves
+          player.y -= player_step_y
+        }
     }
     if (key === "down") {
+      if (player.y + player_step_y < 450) { 
+        // checking if player is not out of canvas, if not player moves 
         player.y += player_step_y
+      }
     }
     if (key === "left") {
-        player.x -= player_step
+        if (player.x - player_step > -50) {
+          // checking if player is not out of canvas, if not player moves   
+          player.x -= player_step
+        }
     }
     if (key === "right") {
-        player.x += player_step
+        // checking if player is not out of canvas, if not player moves 
+        if (player.x + player_step < 450) {
+          player.x += player_step
+        }
     }
+    player.win()
 }
 
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+//checks if player hasn't won yet
+Player.prototype.win = function() {
+    if (player.y < 50) {
+        player.x = 200;
+        player.y = 400;
+    } 
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
