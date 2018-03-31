@@ -32,6 +32,7 @@ Enemy.prototype.update = function(dt) {
     player.y > bug_swim_lane_lower_boundary
   ) {
     if (
+      // player is too close to the bug
       player.x > bug_swim_lane_left_boundary &&
       player.x < bug_swim_lane_right_boundary
     ) {
@@ -130,7 +131,7 @@ function create_bug() {
   allEnemies.push(bug);
 }
 
-//creates a bug in irregular intervals
+//creates a bug at irregular intervals
 setInterval(create_bug, getRandomArbitrary(500, 2000));
 
 // taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
