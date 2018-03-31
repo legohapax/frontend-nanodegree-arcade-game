@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function(loc,speed) {
+var Enemy = function(loc, speed) {
   // Variables applied to each of our instances go here,
   // we've provided one for you to get started
   this.x = -50;
@@ -17,8 +17,28 @@ Enemy.prototype.update = function(dt) {
   // which will ensure the game runs at the same speed for
   // all computers.
   step = this.speed * dt;
-  //console.log(step)
+
   this.x += step;
+
+  // handles collisions with the player
+  deadly_distance = 60;
+  bug_swim_lane_lower_boundary = this.y - deadly_distance;
+  bug_swim_lane_upper_boundary = this.y + deadly_distance;
+  bug_swim_lane_left_boundary = this.x - deadly_distance;
+  bug_swim_lane_right_boundary = this.x + deadly_distance;
+  if (
+    // player is in the bug lane
+    player.y < bug_swim_lane_upper_boundary &&
+    player.y > bug_swim_lane_lower_boundary
+  ) {
+    if (
+      player.x > bug_swim_lane_left_boundary &&
+      player.x < bug_swim_lane_right_boundary
+    ) {
+      player.x = 200;
+      player.y = 400;
+    }
+  }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -48,37 +68,35 @@ Player.prototype.update = function(dt) {
   // You should multiply any movement by the dt parameter
   // which will ensure the game runs at the same speed for
   // all computers.
-
 };
 
 Player.prototype.handleInput = function(key) {
-    
-    if (key === "up") {
-        if (player.y - player_step_y > -50) {
-          // checking if player is not out of canvas, if not player moves
-          player.y -= player_step_y
-        }
+  if (key === "up") {
+    if (player.y - player_step_y > -50) {
+      // checking if player is not out of canvas, if not player moves
+      player.y -= player_step_y;
     }
-    if (key === "down") {
-      if (player.y + player_step_y < 450) { 
-        // checking if player is not out of canvas, if not player moves 
-        player.y += player_step_y
-      }
+  }
+  if (key === "down") {
+    if (player.y + player_step_y < 450) {
+      // checking if player is not out of canvas, if not player moves
+      player.y += player_step_y;
     }
-    if (key === "left") {
-        if (player.x - player_step > -50) {
-          // checking if player is not out of canvas, if not player moves   
-          player.x -= player_step
-        }
+  }
+  if (key === "left") {
+    if (player.x - player_step > -50) {
+      // checking if player is not out of canvas, if not player moves
+      player.x -= player_step;
     }
-    if (key === "right") {
-        // checking if player is not out of canvas, if not player moves 
-        if (player.x + player_step < 450) {
-          player.x += player_step
-        }
+  }
+  if (key === "right") {
+    // checking if player is not out of canvas, if not player moves
+    if (player.x + player_step < 450) {
+      player.x += player_step;
     }
-    player.win()
-}
+  }
+  player.win();
+};
 
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
@@ -87,11 +105,11 @@ Player.prototype.render = function() {
 
 //checks if player hasn't won yet
 Player.prototype.win = function() {
-    if (player.y < 50) {
-        player.x = 200;
-        player.y = 400;
-    } 
-}
+  if (player.y < 50) {
+    player.x = 200;
+    player.y = 400;
+  }
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -102,24 +120,23 @@ player = new Player();
 // pixels on y axis where bug lanes are located
 const lane_pixels = [60, 145, 225];
 
-
 function create_bug() {
   //function randomly getting an element from an array taken from https://zenscript.wordpress.com/2013/11/23/how-to-pick-a-random-entry-out-of-an-array-javascript/
   const lane = lane_pixels[Math.floor(Math.random() * lane_pixels.length)];
   // choosing random speed
-  const speed = getRandomArbitrary(40,200);
+  const speed = getRandomArbitrary(40, 200);
 
-  bug = new Enemy(lane,speed);
+  bug = new Enemy(lane, speed);
   allEnemies.push(bug);
 }
 
 //creates a bug in irregular intervals
-setInterval(create_bug, getRandomArbitrary(500,2000));
+setInterval(create_bug, getRandomArbitrary(500, 2000));
 
 // taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-  }
+  return Math.random() * (max - min) + min;
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -130,6 +147,6 @@ document.addEventListener("keyup", function(e) {
     39: "right",
     40: "down"
   };
-  
+
   player.handleInput(allowedKeys[e.keyCode]);
 });
