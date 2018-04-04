@@ -1,3 +1,5 @@
+const TILE_WIDTH = 101;
+const TILE_HEIGHT = 83;
 // Enemies our player must avoid
 var Enemy = function(loc, speed) {
   // Variables applied to each of our instances go here,
@@ -21,11 +23,11 @@ Enemy.prototype.update = function(dt) {
   this.x += step;
 
   // handles collisions with the player
-  deadly_distance = 60;
-  bug_swim_lane_lower_boundary = this.y - deadly_distance;
-  bug_swim_lane_upper_boundary = this.y + deadly_distance;
-  bug_swim_lane_left_boundary = this.x - deadly_distance;
-  bug_swim_lane_right_boundary = this.x + deadly_distance;
+  DEADLY_DISTANCE = 60;
+  bug_swim_lane_upper_boundary = this.y + DEADLY_DISTANCE;
+  bug_swim_lane_lower_boundary = this.y - DEADLY_DISTANCE;
+  bug_swim_lane_left_boundary = this.x - DEADLY_DISTANCE;
+  bug_swim_lane_right_boundary = this.x + DEADLY_DISTANCE;
   if (
     // player is in the bug lane
     player.y < bug_swim_lane_upper_boundary &&
@@ -50,8 +52,8 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-player_step = 100;
-player_step_y = 82;
+player_step = TILE_WIDTH;
+player_step_y = TILE_HEIGHT;
 
 var Player = function() {
   // Variables applied to each of our instances go here,
@@ -73,30 +75,30 @@ Player.prototype.update = function(dt) {
 
 Player.prototype.handleInput = function(key) {
   if (key === "up") {
-    if (player.y - player_step_y > -50) {
+    if (this.y - player_step_y > -50) {
       // checking if player is not out of canvas, if not player moves
-      player.y -= player_step_y;
+      this.y -= player_step_y;
     }
   }
   if (key === "down") {
-    if (player.y + player_step_y < 450) {
+    if (this.y + player_step_y < 450) {
       // checking if player is not out of canvas, if not player moves
-      player.y += player_step_y;
+      this.y += player_step_y;
     }
   }
   if (key === "left") {
-    if (player.x - player_step > -50) {
+    if (this.x - player_step > -50) {
       // checking if player is not out of canvas, if not player moves
-      player.x -= player_step;
+      this.x -= player_step;
     }
   }
   if (key === "right") {
     // checking if player is not out of canvas, if not player moves
-    if (player.x + player_step < 450) {
-      player.x += player_step;
+    if (this.x + player_step < 450) {
+      this.x += player_step;
     }
   }
-  player.win();
+  this.win();
 };
 
 // Draw the enemy on the screen, required method for game
@@ -106,9 +108,9 @@ Player.prototype.render = function() {
 
 //checks if player hasn't won yet
 Player.prototype.win = function() {
-  if (player.y < 50) {
-    player.x = 200;
-    player.y = 400;
+  if (this.y < 50) {
+    this.x = 200;
+    this.y = 400;
   }
 };
 

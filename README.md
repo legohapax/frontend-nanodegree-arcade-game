@@ -1,7 +1,7 @@
 # Arcade bug game
 
 ## Instructions
-To get started, open `js/app.js`.
+To get started, open `index.html`.
 
 ### How the game is played
 Your main goal is to reach water with your avatar. On your way you have to avoid crushing with dangerous and vile bugs.
